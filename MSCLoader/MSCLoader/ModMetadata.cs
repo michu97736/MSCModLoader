@@ -168,7 +168,7 @@ internal class ModMetadata
         else
         {
             if (!sl)
-                ModConsole.Error($"steam auth failed");
+                ModConsole.Error($"Steam auth failed");
             return false;
         }
     }
@@ -219,7 +219,7 @@ internal class ModMetadata
         }
         else
         {
-            ModConsole.Error("No valid steam detected");
+            ModConsole.Error("Steam auth failed");
         }
     }
     public static void CreateMetadata(Mod mod)
@@ -289,7 +289,7 @@ internal class ModMetadata
                             ModConsole.Error($"User not found");
                             break;
                         case "3":
-                            ModConsole.Error($"This Mod ID already exist in database");
+                            ModConsole.Error($"This Mod ID already exists in database");
                             break;
                         default:
                             ModConsole.Error($"Unknown error");
@@ -316,7 +316,7 @@ internal class ModMetadata
         }
         else
         {
-            ModConsole.Error("No valid steam detected");
+            ModConsole.Error("Steam auth failed");
         }
     }
     public static void CreateReference(References refs)
@@ -391,7 +391,7 @@ internal class ModMetadata
         }
         else
         {
-            ModConsole.Error("No valid steam detected");
+            ModConsole.Error("Steam auth failed");
         }
     }
 
@@ -632,7 +632,6 @@ internal class ModMetadata
                         break;
                     case "3":
                         ModConsole.Error($"This Mod ID doesn't exist in database, create it first");
-
                         break;
                     case "4":
                         ModConsole.Error($"This is not your mod.");

@@ -248,7 +248,7 @@ public partial class ModLoader : MonoBehaviour
         LoadCoreAssets();
         if (CheckVortexBS())
         {
-            ModUI.ShowMessage($"<b><color=orange>DON'T use Vortex</color></b> to update MSCLoader, or to install tools or mods.{Environment.NewLine}<b><color=orange>Vortex isn't supported by MSCLoader</color></b>, because it's implementation is broken that breaks Mods folder by putting wrong files into it.{Environment.NewLine}{Environment.NewLine}MSCLoader will try to fix your mods folder now, <b><color=orange>please restart your game.</color></b>{Environment.NewLine}If this message shows again after restart, rebuild your Mods folder from scratch.", "Fatal Error");
+            ModUI.ShowMessage($"<b><color=orange>DON'T use Vortex</color></b> to update MSCLoader, or to install tools or mods.{Environment.NewLine}<b><color=orange>Vortex isn't supported by MSCLoader</color></b>, because it's implementation breaks Mods folder by putting wrong files into it.{Environment.NewLine}{Environment.NewLine}MSCLoader will try to fix your mods folder now, <b><color=orange>please restart your game.</color></b>{Environment.NewLine}If this message shows again after restart, rebuild your Mods folder from scratch.", "Fatal Error");
             return;
         }
         LoadMod(new ModConsole(), MSCLoader_Ver);
@@ -311,7 +311,7 @@ public partial class ModLoader : MonoBehaviour
         catch (Exception e)
         {
             steamID = null;
-            ModConsole.Error("Steam client doesn't exists.");
+            ModConsole.Error("Steam client doesn't exist.");
             if (devMode)
                 ModConsole.Error(e.ToString());
             Console.WriteLine(e);
@@ -807,9 +807,9 @@ public partial class ModLoader : MonoBehaviour
     {
         string errorDetails = $"{Environment.NewLine}<b>Details: </b>{e.Message} in <b>{new StackTrace(e, true).GetFrame(0).GetMethod()}</b>";
         if (save)
-            saveErrors.Add($"Mod <b>{mod.ID}</b> throw an error!{errorDetails}");
+            saveErrors.Add($"Mod <b>{mod.ID}</b> has thrown an error!{errorDetails}");
         else
-            ModConsole.Error($"Mod <b>{mod.ID}</b> throw an error!{errorDetails}");
+            ModConsole.Error($"Mod <b>{mod.ID}</b> has thrown an error!{errorDetails}");
         if (devMode)
         {
             if (save)
