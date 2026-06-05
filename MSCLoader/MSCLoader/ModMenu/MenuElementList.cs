@@ -404,12 +404,13 @@ namespace MSCLoader
             File.WriteAllText(Path.Combine(dir, "bugReport.json"), Newtonsoft.Json.JsonConvert.SerializeObject(report));
             ModConsole.Print("Zipping Bug Report Files...");
             using (ZipFile zip = new ZipFile())
-            {
+            {                
                 zip.AddFile(Path.Combine(dir, "bugReport.json"), "");
                 zip.AddFile(Path.Combine(dir, "ModList.txt"), "");
                 zip.AddFile(Path.Combine(".", "output_log.txt"), "");
                 if (File.Exists(Path.Combine(".", "output_log_previous.txt")))
                     zip.AddFile(Path.Combine(".", "output_log_previous.txt"), "");
+                zip.AddDirectory(ModLoader.GetModSettingsFolder(mod), $"Config");
                 if (report.bugReportSaveFile)
                 {
 #if MSC
