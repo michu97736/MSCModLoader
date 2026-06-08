@@ -1,4 +1,5 @@
 ﻿#if !Mini
+using HutongGames.PlayMaker.Actions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -121,6 +122,18 @@ public partial class ModLoader
         return builder.ToString();
     }
 
+    internal static bool CheckIfWineOrProton()
+    {
+        //Wine dll override variable
+        if(Environment.GetEnvironmentVariable("WINEDLLOVERRIDES") != null) return true;
+        return false;
+    }
+    internal static bool CheckIfLinux()
+    {
+        //Native linux
+        if (SystemInfo.operatingSystem.Contains("Linux")) return true;
+        return false;
+    }
     internal static string SystemInfoFix()
     {
         string Sinfo = SystemInfo.operatingSystem;
@@ -135,6 +148,7 @@ public partial class ModLoader
                     windowsfixed = $"Windows 11 (10.0.{build})";
                     if (Sinfo.Contains("64bit"))
                         windowsfixed += " 64bit";
+                    if(IsWineOrProton) windowsfixed += " [Wine/Proton]";
                     return windowsfixed;
                 }
                 else if (build > 9841)
@@ -142,10 +156,13 @@ public partial class ModLoader
                     windowsfixed = $"Windows 10 (10.0.{build})";
                     if (Sinfo.Contains("64bit"))
                         windowsfixed += " 64bit";
+                    if (IsWineOrProton) windowsfixed += " [Wine/Proton]";
+
                     return windowsfixed;
                 }
+                if (IsWineOrProton) Sinfo += " [Wine/Proton]";
                 else return Sinfo;
-            }
+            }            
         }
         catch (Exception ex)
         {

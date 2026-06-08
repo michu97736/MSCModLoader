@@ -63,6 +63,16 @@ public partial class ModLoader
     public static Game CurrentGame => currentGame;
 
     /// <summary>
+    /// Is running on Wine or Proton
+    /// </summary>
+    public static bool IsWineOrProton => CheckIfWineOrProton();
+
+    /// <summary>
+    /// Is running native Linux executable
+    /// </summary>
+    public static bool IsLinux => CheckIfLinux();
+
+    /// <summary>
     /// Check if steam is present
     /// </summary>
     /// <returns>Valid steam detected.</returns>

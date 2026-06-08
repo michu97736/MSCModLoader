@@ -30,6 +30,7 @@ namespace MSCLoader.Preloader
         static byte[] mwcData = { 0x41, 0x6D, 0x69, 0x73, 0x74, 0x65, 0x63, 0x68, 0x0D, 0x00, 0x00, 0x00, 0x4D, 0x79, 0x20, 0x57, 0x69, 0x6E, 0x74, 0x65, 0x72, 0x20, 0x43, 0x61, 0x72 };
         static string managedPath;
         static bool mwc = false;
+        static bool signleInstancePatch = false;
 
         //Entry point for doorstop
         public static void Main()
@@ -53,8 +54,13 @@ namespace MSCLoader.Preloader
                 MDebug.Log($"Detected -mscloader-disable flag, exiting...");
                 return;
             }
+            if (launchArgs.Contains("-mscloader-sipatch"))
+            {
+                MDebug.Log($"Detected -mscloader-sipatch (will attempt to disable single instance)");
+                signleInstancePatch = true;
+            }
             UnpackUpdate();
-            OutputLogChecker(); //Enable output_log after game update  
+            MainDataPatcher(); //Enable output_log after game update  
             MDebug.Log("Waiting for engine...");
             AppDomain.CurrentDomain.AssemblyLoad += AssemblyWatcher;
         }
@@ -151,22 +157,27 @@ namespace MSCLoader.Preloader
                 MDebug.Log(e.ToString(), true);
             }
         }
-        private static void OutputLogChecker()
+        private static void MainDataPatcher()
         {
             try
             {
                 bool enLog = false;
                 bool skipCfg = false;
+                bool singleInstance = true;
+                byte cfgScreenOffset = 96;
+                byte outputLogOffset = 115;
+                byte signleInstanceOffset = 117; //For native linux chromium conflict
                 string mainDataPath = Path.Combine("", Path.Combine(mwc ? "mywintercar_Data" : "mysummercar_Data", "mainData"));
-                
-                long offset = FindBytes(mainDataPath, mwc ? mwcData : mscData);
+                long mainDataPosition = FindBytes(mainDataPath, mwc ? mwcData : mscData);
                 using (FileStream stream = File.OpenRead(mainDataPath))
                 {
                     MDebug.Log("Checking output_log status...");
-                    stream.Position = offset + 115;
+                    stream.Position = mainDataPosition + outputLogOffset;
                     enLog = stream.ReadByte() != 1;
-                    stream.Position = offset + 96;
+                    stream.Position = mainDataPosition + cfgScreenOffset;
                     skipCfg = stream.ReadByte() != 1;
+                    stream.Position = mainDataPosition + signleInstanceOffset;
+                    singleInstance = stream.ReadByte() == 1 ? true : false;
                     stream.Close();
                 }
                 if (enLog)
@@ -175,7 +186,7 @@ namespace MSCLoader.Preloader
                     {
                         //output_log.txt
                         MDebug.Log("Enabling output_log...");
-                        stream.Position = offset + 115;
+                        stream.Position = mainDataPosition + outputLogOffset;
                         stream.WriteByte(0x01);
                         stream.Close();
                     }
@@ -185,11 +196,35 @@ namespace MSCLoader.Preloader
                     using (FileStream stream = new FileStream(mainDataPath, FileMode.Open, FileAccess.ReadWrite))
                     {
                         MDebug.Log("Changing config screen skip...");
-                        stream.Position = offset + 96;
+                        stream.Position = mainDataPosition + cfgScreenOffset;
                         if (cfgScreenSkip)
                             stream.WriteByte(0x00);
                         else
                             stream.WriteByte(0x01);
+                        stream.Close();
+                    }
+                }
+                if(signleInstancePatch && !singleInstance)
+                {
+                    MDebug.Log("Single instance was already disabled (-mscloader-sipatch flag) skipping...");
+                }
+                if (signleInstancePatch && singleInstance)
+                {
+                    using (FileStream stream = new FileStream(mainDataPath, FileMode.Open, FileAccess.ReadWrite))
+                    {
+                        MDebug.Log("Disabling single instance (-mscloader-sipatch flag)...");
+                        stream.Position = mainDataPosition + signleInstanceOffset;
+                        stream.WriteByte(0x00);
+                        stream.Close();
+                    }
+                }
+                if(!signleInstancePatch && !singleInstance)
+                {
+                    using (FileStream stream = new FileStream(mainDataPath, FileMode.Open, FileAccess.ReadWrite))
+                    {
+                        MDebug.Log("Reverting single instance to default (no -mscloader-sipatch flag)...");
+                        stream.Position = mainDataPosition + signleInstanceOffset;
+                        stream.WriteByte(0x01);
                         stream.Close();
                     }
                 }
