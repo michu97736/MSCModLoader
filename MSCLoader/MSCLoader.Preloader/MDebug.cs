@@ -12,8 +12,11 @@ namespace MSCLoader.Preloader
         {
             ts.Switch.Level = SourceLevels.All;
             ts.Listeners.Add(tw);
-            Log($"MSCLoader Preloader Log {DateTime.Now.ToString("u")}");
+            Log($"========================================================================");
+            Log($"MSCLoader Preloader Log {DateTime.Now:u}");
             Log($"Version {System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}", true);
+            Log($"========================================================================");
+
         }
 
         public static void Log(string message, bool newline = false)
