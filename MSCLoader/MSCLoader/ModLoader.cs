@@ -946,7 +946,10 @@ public partial class ModLoader : MonoBehaviour
 #endif
         for (int i = 0; i < Mod_OnNewGame.Length; i++)
         {
-            canvLoading.SetLoadingProgress(Mod_OnNewGame[i].Name);
+            if (!string.IsNullOrEmpty(Mod_OnNewGame[i].OnNewGameStatus))
+                canvLoading.SetLoadingProgress($"[{Mod_OnNewGame[i].ID}] {Mod_OnNewGame[i].OnNewGameStatus}");
+            else
+                canvLoading.SetLoadingProgress(Mod_OnNewGame[i].ID);
             yield return null;
             try
             {
@@ -1004,8 +1007,11 @@ public partial class ModLoader : MonoBehaviour
         yield return null;
         for (int i = 0; i < Mod_PreLoad.Length; i++)
         {
-            canvLoading.SetLoadingProgress(Mod_PreLoad[i].ID);
             if (Mod_PreLoad[i].isDisabled) continue;
+            if (!string.IsNullOrEmpty(Mod_PreLoad[i].OnPreLoadStatus))
+                canvLoading.SetLoadingProgress($"[{Mod_PreLoad[i].ID}] {Mod_PreLoad[i].OnPreLoadStatus}");
+            else
+                canvLoading.SetLoadingProgress(Mod_PreLoad[i].ID);
             yield return null;
             try
             {
@@ -1048,8 +1054,11 @@ public partial class ModLoader : MonoBehaviour
         yield return null;
         for (int i = 0; i < Mod_OnLoad.Length; i++)
         {
-            canvLoading.SetLoadingProgress(Mod_OnLoad[i].ID);
             if (Mod_OnLoad[i].isDisabled) continue;
+            if (!string.IsNullOrEmpty(Mod_OnLoad[i].OnLoadStatus))
+                canvLoading.SetLoadingProgress($"[{Mod_OnLoad[i].ID}] {Mod_OnLoad[i].OnLoadStatus}");
+            else
+                canvLoading.SetLoadingProgress(Mod_OnLoad[i].ID);
             yield return null;
             try
             {
@@ -1086,8 +1095,11 @@ public partial class ModLoader : MonoBehaviour
         yield return null;
         for (int i = 0; i < Mod_PostLoad.Length; i++)
         {
-            canvLoading.SetLoadingProgress(Mod_PostLoad[i].ID);
             if (Mod_PostLoad[i].isDisabled) continue;
+            if (!string.IsNullOrEmpty(Mod_PostLoad[i].OnPostLoadStatus))
+                canvLoading.SetLoadingProgress($"[{Mod_PostLoad[i].ID}] {Mod_PostLoad[i].OnPostLoadStatus}");
+            else
+                canvLoading.SetLoadingProgress(Mod_PostLoad[i].ID);
             yield return null;
             try
             {
@@ -1839,10 +1851,10 @@ public partial class ModLoader : MonoBehaviour
             ModException(e, mod);
         }
         if (allModsLoaded)
-            mod.modErrors++;
+            mod.modClassErrors++;
         if (devMode)
         {
-            if (mod.modErrors >= 60)
+            if (mod.modClassErrors >= 60)
             {
                 mod.isDisabled = true;
                 ModConsole.Error($"Mod <b>{mod.ID}</b> spams <b>too many errors each frame</b>! Last error: ");
@@ -1852,7 +1864,7 @@ public partial class ModLoader : MonoBehaviour
         }
         else
         {
-            if (mod.modErrors >= 30)
+            if (mod.modClassErrors >= 30)
             {
                 mod.isDisabled = true;
                 ModConsole.Error($"Mod <b>{mod.ID}</b> has been <b>disabled!</b> Because it spams too many errors each frame!{Environment.NewLine}Report this problem to mod author.{Environment.NewLine}Last error message:");

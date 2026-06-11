@@ -6,6 +6,12 @@ namespace MSCLoader;
 
 public partial class Mod
 {
+
+    /// <summary>
+    /// true if mod is disabled
+    /// </summary>
+    public bool isDisabled { get; internal set; }
+
     /// <summary>
     /// Type of Function to setup
     /// </summary>
@@ -32,7 +38,7 @@ public partial class Mod
         /// </summary>
         PostLoad,
         /// <summary>
-        /// OnSave - Executed once after game is being saved.
+        /// OnSave - Executed once after game is being saved
         /// </summary>
         OnSave,
         /// <summary>
@@ -56,19 +62,16 @@ public partial class Mod
         /// </summary>
         OnModDisabled,
         /// <summary>
-        /// ModSettingsLoaded - Called after saved settings have been loaded from file.
+        /// ModSettingsLoaded - Called after saved settings have been loaded from file or after "Reset Settings to default" is pressed
         /// </summary>
         ModSettingsLoaded,
         /// <summary>
-        /// ModSettings - All settings and Keybinds should be created here.
+        /// ModSettings - All settings and Keybinds should be created here
         /// </summary>
         ModSettings
     }
 
-    /// <summary>
-    /// true if mod is disabled
-    /// </summary>
-    public bool isDisabled { get; internal set; }
+    //Configuraton flags
     internal bool hasUpdate = false;
     internal bool newFormat = false;
     internal bool newEnDisFormat = false;
@@ -79,9 +82,11 @@ public partial class Mod
     internal bool isEA = false;
     internal bool isIncompatible = false;
     internal bool hasConflict = false;
-    internal int modErrors = 0;
-    internal string compiledVersion;
-    internal string fileName;
+
+
+    internal int modClassErrors = 0;        //Errors in Update function (Mod class Only).
+    internal string compiledVersion;        //MSCLoader version mod was compiled
+    internal string fileName;               //Dll filename
     internal MSCLData metadata;             //Local metadata
     internal MetaVersion UpdateInfo;        //Update info
 
@@ -97,21 +102,34 @@ public partial class Mod
     internal Action A_FixedUpdate;          //Calls unity FixedUpdate
     internal Action A_OnModEnabled;         //When mod has been enabled
     internal Action A_OnModDisabled;        //When mod has been disabled
-    internal Action A_ModSettings;          //Create mod settings from here.
-    internal Action A_ModSettingsLoaded;    //When mod settings have been loaded from file
+    internal Action A_ModSettings;          //Mod Settings are created from here
+    internal Action A_ModSettingsLoaded;    //When mod settings values have been loaded
+
+    internal string OnNewGameStatus = null; //Custom NewGame progress bar status
+    internal string OnPreLoadStatus = null; //Custom PreLoad progress bar status
+    internal string OnLoadStatus = null;    //Custom OnLoad progress bar status
+    internal string OnPostLoadStatus = null;//Custom PostLoad progress bar status
 
     internal List<ModSetting> modSettingsList = new List<ModSetting>();
     internal List<ModKeybind> modKeybindsList = new List<ModKeybind>();
-    //  internal List<Keybind> Keybinds = new List<Keybind>();//
-    // internal List<Keybind> DefaultKeybinds = new List<Keybind>();//
+
     internal string[] AdditionalReferences = [];
     internal string asmGuid = "";
+
     /// <summary>
     /// Setup selected function for your mod
     /// </summary>
     /// <param name="functionType">Function type</param>
     /// <param name="function">Your own function to execute that type</param>
-    public void SetupFunction(Setup functionType, Action function)
+    public void SetupFunction(Setup functionType, Action function) => SetupFunction(functionType, function, null);
+
+    /// <summary>
+    /// Setup selected function for your mod
+    /// </summary>
+    /// <param name="functionType">Function type</param>
+    /// <param name="function">Your own function to execute that type</param>
+    /// <param name="customStatusText">Custom status text on loading progress bar (Only in OnNewGame, PreLoad, OnLoad, PostLoad)</param>
+    public void SetupFunction(Setup functionType, Action function, string customStatusText)
     {
         newFormat = true;
         if (function == null) return;
@@ -127,6 +145,8 @@ public partial class Mod
                     A_OnNewGame = function;
                 else
                     ModConsole.Error($"SetupFunction() error for <b>{ID}</b>. You have already created <b>OnNewGame</b> function type.");
+                if (!string.IsNullOrEmpty(customStatusText))
+                    OnNewGameStatus = customStatusText;
                 break;
             case Setup.OnMenuLoad:
                 menuCallbacks = true;
@@ -140,18 +160,24 @@ public partial class Mod
                     A_PreLoad = function;
                 else
                     ModConsole.Error($"SetupFunction() error for <b>{ID}</b>. You have already created <b>PreLoad</b> function type.");
+                if (!string.IsNullOrEmpty(customStatusText))
+                    OnPreLoadStatus = customStatusText;
                 break;
             case Setup.OnLoad:
                 if (A_OnLoad == null)
                     A_OnLoad = function;
                 else
                     ModConsole.Error($"SetupFunction() error for <b>{ID}</b>. You have already created <b>OnLoad</b> function type.");
+                if (!string.IsNullOrEmpty(customStatusText))
+                    OnLoadStatus = customStatusText;
                 break;
             case Setup.PostLoad:
                 if (A_PostLoad == null)
                     A_PostLoad = function;
                 else
                     ModConsole.Error($"SetupFunction() error for <b>{ID}</b>. You have already created <b>PostLoad</b> function type.");
+                if (!string.IsNullOrEmpty(customStatusText))
+                    OnPostLoadStatus = customStatusText;
                 break;
             case Setup.OnSave:
                 if (A_OnSave == null)

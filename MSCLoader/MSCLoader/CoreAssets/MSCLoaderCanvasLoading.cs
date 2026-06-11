@@ -5,10 +5,20 @@ namespace MSCLoader;
 
 internal class MSCLoaderCanvasLoading : MonoBehaviour
 {
-    public GameObject modLoadingUI, modUpdateUI, lContainer;
-    public Text lHeader, lTitle, lMod, uTitle, uStatus;
-    public Slider lProgress, uProgress;
+    [Header("Loading Dialog")]
+    public GameObject modLoadingUI;
+    public GameObject lContainer;
+    public Text lHeader, lTitle, lMod;
+    public Slider lProgress;
     public Image lBackFade;
+    public GameObject SecondaryStatus;
+    public Text lSecTitle;
+    public Slider lSecProgress;
+
+    [Header("Update Dialog")]
+    public GameObject modUpdateUI;
+    public Text uTitle, uStatus;
+    public Slider uProgress;
 
     private Coroutine updateUIAnim;
 
