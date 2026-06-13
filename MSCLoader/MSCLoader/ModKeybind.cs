@@ -118,8 +118,27 @@ public class SettingsKeybind : ModKeybind
         KeybKey = DefaultKeybKey;
         KeybModif = DefaultKeybModif;
     }
+
     /// <summary>
-    /// Check if keybind is being hold down. (Same behaviour as GetKey)
+    /// Get the current set key for keybind as KeyCode 
+    /// (do not use this value for input checking)
+    /// </summary>
+    public KeyCode GetKeyValue => KeybKey;
+
+    /// <summary>
+    /// Get the current set modifier for keybind as KeyCode (if no modifier, KeyCode.None will be returned)
+    /// (do not use this value for input checking)
+    /// </summary>
+    public KeyCode GetModifierValue => KeybModif;
+
+    /// <summary>
+    /// Get the current keybind combination as string (if no modifier, only key will be displayed)
+    /// (do not parse this value for input checking)
+    /// </summary>
+    public string GetKeybindValue => KeybModif == KeyCode.None ? KeybKey.ToString() : $"{KeybModif} + {KeybKey}";
+
+    /// <summary>
+    /// Check if keybind is being hold down. (Same behaviour as unity GetKey)
     /// </summary>
     /// <returns>true, if the keybind is being hold down.</returns>
     public bool GetKeybind()
@@ -133,7 +152,7 @@ public class SettingsKeybind : ModKeybind
     }
 
     /// <summary>
-    /// Check if the keybind was just pressed once. (Same behaviour as GetKeyDown)
+    /// Check if the keybind was just pressed once. (Same behaviour as unity GetKeyDown)
     /// </summary>
     /// <returns>true, Check if the keybind was just pressed.</returns>
     public bool GetKeybindDown()
@@ -147,7 +166,7 @@ public class SettingsKeybind : ModKeybind
     }
 
     /// <summary>
-    /// Check if the keybind was just released. (Same behaviour as GetKeyUp)
+    /// Check if the keybind was just released. (Same behaviour as unity GetKeyUp)
     /// </summary>
     /// <returns>true, Check if the keybind was just released.</returns>
     public bool GetKeybindUp()
