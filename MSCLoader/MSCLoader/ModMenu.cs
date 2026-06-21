@@ -85,7 +85,7 @@ internal class ModMenu : Mod
         SettingsText modulesVer = Settings.AddText($"MSCLoader modules:{Environment.NewLine}");
 
         if (doorstopVer != null)
-            modulesVer.SetValue(modulesVer.GetValue() + $"MSCLoader modules:{Environment.NewLine}<color=yellow>Doorstop</color>: <color=aqua>v{doorstopVer.ProductVersion}</color>{Environment.NewLine}");
+            modulesVer.SetValue(modulesVer.GetValue() + $"<color=yellow>Doorstop</color>: <color=aqua>v{doorstopVer.ProductVersion}</color>{Environment.NewLine}");
         modulesVer.SetValue(modulesVer.GetValue() + $"<color=yellow>MSCLoader.Preloader</color>: <color=aqua>v{coreVer.FileMajorPart}.{coreVer.FileMinorPart}.{coreVer.FileBuildPart} build {coreVer.FilePrivatePart}</color>{Environment.NewLine}<color=yellow>MSCLoader</color>: <color=aqua>v{ModLoader.MSCLoader_Ver} build {ModLoader.Instance.currentBuild}</color>");
 
         if (File.Exists(Path.Combine(ModLoader.ModsFolder, Path.Combine("References", "MSCCoreLibrary.dll"))))

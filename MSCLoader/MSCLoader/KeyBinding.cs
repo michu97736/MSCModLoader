@@ -96,6 +96,7 @@ internal class KeyBinding : MonoBehaviour
             }
             return name.Replace("Keypad", "Num ");
         }
+
         return name;
     }
     void Update()
@@ -140,7 +141,7 @@ internal class KeyBinding : MonoBehaviour
         }
         else
         {
-            KeybindText.text = keyb.KeybModif == KeyCode.None ? FriendlyBindName(keyb.KeybKey.ToString()).ToUpper() : $"{FriendlyBindName(keyb.KeybModif.ToString()).ToUpper()} + {keyb.KeybKey.ToString().ToUpper()}";
+            KeybindText.text = keyb.KeybModif == KeyCode.None ? FriendlyBindName(keyb.KeybKey.ToString()).ToUpper() : $"{FriendlyBindName(keyb.KeybModif.ToString()).ToUpper()} + {FriendlyBindName(keyb.KeybKey.ToString()).ToUpper()}";
             Buttons.SetActive(true);
             ButtonsR.SetActive(false);
         }

@@ -124,7 +124,7 @@ public partial class ModLoader
     internal static bool CheckIfWineOrProton()
     {
         //Wine dll override variable
-        if(Environment.GetEnvironmentVariable("WINEDLLOVERRIDES") != null) return true;
+        if (Environment.GetEnvironmentVariable("WINEDLLOVERRIDES") != null) return true;
         return false;
     }
     internal static bool CheckIfLinux()
@@ -147,7 +147,7 @@ public partial class ModLoader
                     windowsfixed = $"Windows 11 (10.0.{build})";
                     if (Sinfo.Contains("64bit"))
                         windowsfixed += " 64bit";
-                    if(IsWineOrProton) windowsfixed += " [Wine/Proton]";
+                    if (IsWineOrProton) windowsfixed += " [Wine/Proton]";
                     return windowsfixed;
                 }
                 else if (build > 9841)
@@ -161,7 +161,7 @@ public partial class ModLoader
                 }
                 if (IsWineOrProton) Sinfo += " [Wine/Proton]";
                 else return Sinfo;
-            }            
+            }
         }
         catch (Exception ex)
         {

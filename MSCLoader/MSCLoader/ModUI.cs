@@ -61,6 +61,7 @@ public class ModUI
     internal static MessageBoxesCanvas messageBoxCv;
     internal static PopupSettingController popupSettingController;
     internal static GameObject canvasPrefab;
+    internal static MSCLoaderCanvasLoading loadingCanvas;
     private static GameObject msclCanv;
 
     internal static void PrepareDefaultCanvas()
@@ -323,6 +324,62 @@ public class ModUI
         return JsonConvert.DeserializeObject<T>(response);
     }
 
+    /// <summary>
+    /// Check if Popup Setting Window is active (cannot create new one when active)
+    /// </summary>
+    public static bool isPopupSettingActive => popupSettingController.alreadyCreated;
+
+    /// <summary>
+    /// Check if Progress Bar is active (cannot create new one when active)
+    /// </summary>
+    public static bool isProgressBarActive => loadingCanvas.loadingProgressBarActive;
+
+    /// <summary>
+    /// Create Custom Progress Bar
+    /// </summary>
+    /// <param name="title">Progress bar title</param>
+    /// <param name="maxValue">Max value of progress bar</param>
+    /// <param name="status">Progress bar status text</param>
+    public static void CreateProgressBar(string title, int maxValue, string status)
+    {
+        if (loadingCanvas.loadingProgressBarActive)
+        {
+            ModConsole.Error("CreateProgressBar(): Only one progressbar can be active at time");
+            return;
+        }
+        loadingCanvas.SetProgressbar(title, 0, maxValue, status);
+    }
+
+    /// <summary>
+    /// Update Progress Bar Setup info without creating new progress bar (title and max value)
+    /// </summary>
+    /// <param name="title">New progress bar title</param>
+    /// <param name="maxValue">New max value</param>
+    public static void UpdateProgressBarSetup(string title, int maxValue)
+    {
+        if (!loadingCanvas.loadingProgressBarActive) return;
+        loadingCanvas.UpdateProgressbarSetup(title, maxValue);
+    }
+
+    /// <summary>
+    /// Update Progress Bar values
+    /// </summary>
+    /// <param name="progress">Progress bar current value</param>
+    /// <param name="status">Progress bar current status text</param>
+    public static void UpdateProgressBar(int progress, string status)
+    {
+        if (!loadingCanvas.loadingProgressBarActive) return;
+        loadingCanvas.UpdateProgressbar(progress, status);
+    }
+
+    /// <summary>
+    /// Close Progress Bar after you are done
+    /// </summary>
+    public static void CloseProgressBar()
+    {
+        if (!loadingCanvas.loadingProgressBarActive) return;
+        loadingCanvas.ToggleProgressBar(false);
+    }
 }
 
 /// <summary>
@@ -573,6 +630,7 @@ public class PopupSetting
         settingElements.Add(s);
         return s;
     }
+
 
 }
 #endif

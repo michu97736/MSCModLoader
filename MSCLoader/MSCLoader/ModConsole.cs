@@ -13,11 +13,15 @@ namespace MSCLoader;
 public class ModConsole : Mod
 {
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    /// <exclude />
     public override string ID => "MSCLoader_Console";
-
+    /// <exclude />
     public override string Name => "[INTERNAL] Console";
+
+    /// <exclude />
     public override string Version => ModLoader.MSCLoader_Ver;
+
+    /// <exclude />
     public override string Author => "MSCLoader";
 
     internal static bool IsOpen;
@@ -27,6 +31,8 @@ public class ModConsole : Mod
     internal static SettingsText versionText, lastCheckText;
     private GameObject UI;
     private SettingsKeybind consoleKey;
+
+    /// <exclude />
     public override void ModSetup()
     {
         SetupFunction(Setup.OnMenuLoad, Mod_OnMenuLoad);
@@ -34,7 +40,7 @@ public class ModConsole : Mod
         SetupFunction(Setup.ModSettings, Mod_Settings);
         SetupFunction(Setup.ModSettingsLoaded, Mod_SettingsLoaded);
     }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+
     private void Mod_Settings()
     {
         Settings.ModSettings(this);

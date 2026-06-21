@@ -205,6 +205,7 @@ public static class PlayMakerExtensions
     /// <summary>
     /// Insert custom Action to the Playmaker
     /// </summary>
+    /// <typeparam name="T">FsmStateAction Action type</typeparam>
     /// <param name="fsm">Target Playmaker</param>
     /// <param name="stateName">Target state name</param>
     /// <param name="action">Custom FsmStateAction</param>
@@ -260,7 +261,7 @@ public static class PlayMakerExtensions
     /// </summary>
     /// <param name="fsm">The target PlaymakerFSM</param>
     /// <param name="eventName">Event name</param>
-    /// <returns></returns>
+    /// <returns>FsmEvent</returns>
     public static FsmEvent GetEvent(this PlayMakerFSM fsm, string eventName) => fsm.Fsm.GetEvent(eventName);
 
     private static FsmEvent GetEvent(Fsm fsm, string name) => fsm.GetEvent(name);
@@ -271,6 +272,7 @@ public static class PlayMakerExtensions
     /// </summary>
     /// <param name="pm">PlayMakerFSM</param>
     /// <param name="eventName">event name</param>
+    /// <returns>FsmEvent</returns>
     public static FsmEvent AddEvent(this PlayMakerFSM pm, string eventName)
     {
         pm.InitializeFSM();
@@ -703,10 +705,10 @@ public static class PlayMakerExtensions
     /// <summary>
     /// Gets a FsmStateAction from the FsmState
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">FsmStateAction Action type</typeparam>
     /// <param name="fs">FsmState</param>
     /// <param name="index">index in state array</param>
-    /// <returns></returns>
+    /// <returns>FsmStateAction</returns>
     public static T GetAction<T>(this FsmState fs, int index) where T : FsmStateAction
     {
         if (index >= fs.Actions.Length || index < 0) return null;

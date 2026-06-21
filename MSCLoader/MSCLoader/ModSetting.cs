@@ -532,6 +532,7 @@ public class SettingsHeader : ModSetting
     /// <summary>
     /// Change title background color
     /// </summary>
+    /// <param name="color">color</param>
     public void SetBackgroundColor(Color color)
     {
         if (HeaderElement == null) return;
@@ -541,6 +542,7 @@ public class SettingsHeader : ModSetting
     /// <summary>
     /// Change title text.
     /// </summary>
+    /// <param name="color">color</param>
     public void SetTextColor(Color color)
     {
         if (HeaderElement == null) return;

@@ -12,8 +12,7 @@ namespace MSCLInstaller
 
         public static void Init()
         {
-            Stream logFile = File.Create("Log.txt");
-            tw = new TextWriterTraceListener(logFile);
+            tw = new TextWriterTraceListener("Log.txt");
             ts.Switch.Level = SourceLevels.All;
             ts.Listeners.Add(tw);
             Log($"MSCLoader Installer Log {DateTime.Now:u}");

@@ -72,6 +72,7 @@ public class KeybindHeader : ModKeybind
     /// <summary>
     /// Change title background color
     /// </summary>
+    /// <param name="color">Color value</param>
     public void SetBackgroundColor(Color color)
     {
         if (HeaderElement == null) return;
@@ -81,6 +82,7 @@ public class KeybindHeader : ModKeybind
     /// <summary>
     /// Change title text.
     /// </summary>
+    /// <param name="color">Color value</param>
     public void SetTextColor(Color color)
     {
         if (HeaderElement == null) return;
@@ -135,7 +137,7 @@ public class SettingsKeybind : ModKeybind
     /// Get the current keybind combination as string (if no modifier, only key will be displayed)
     /// (do not parse this value for input checking)
     /// </summary>
-    public string GetKeybindValue => KeybModif == KeyCode.None ? KeybKey.ToString() : $"{KeybModif} + {KeybKey}";
+    public string GetKeybindValue => KeybModif == KeyCode.None ? FriendlyBindName(KeybKey.ToString()) : $"{FriendlyBindName(KeybModif.ToString())} + {FriendlyBindName(KeybKey.ToString())}";
 
     /// <summary>
     /// Check if keybind is being hold down. (Same behaviour as unity GetKey)
@@ -177,6 +179,32 @@ public class SettingsKeybind : ModKeybind
         }
 
         return Input.GetKeyUp(KeybKey);
+    }
+    private string FriendlyBindName(string name)
+    {
+        if (name.StartsWith("Keypad"))
+        {
+            switch (name)
+            {
+                case "KeypadDivide":
+                    return "Num /";
+                case "KeypadMultiply":
+                    return "Num *";
+                case "KeypadMinus":
+                    return "Num -";
+                case "KeypadPlus":
+                    return "Num +";
+                case "KeypadEnter":
+                    return "Num Enter";
+                case "KeypadEquals":
+                    return "Num =";
+                case "KeypadPeriod":
+                    return "Num .";
+            }
+            return name.Replace("Keypad", "Num ");
+        }
+
+        return name;
     }
 }
 #endif

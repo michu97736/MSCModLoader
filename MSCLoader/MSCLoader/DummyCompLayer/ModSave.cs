@@ -7,11 +7,12 @@ using System.Xml;
 using System.Xml.Serialization;
 
 namespace MSCLoader;
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
+/// <exclude />
 [Obsolete("This is only compatibility layer for ModLoaderPro, please use more efficient save system", true)]
 public class ModSave
 {
+    /// <exclude />
     [Obsolete("This is only compatibility layer for ModLoaderPro, please use more efficient save system", true)]
     public static void Save<T>(string fileName, T data, string encryptionKey = null) where T : class, new()
     {
@@ -65,6 +66,7 @@ public class ModSave
             ModConsole.LogError($"MODSAVE: File {fileName} couldn't be saved.\n{exception}");
         }
     }
+    /// <exclude />
     [Obsolete("This is only compatibility layer for ModLoaderPro, please use more efficient save system", true)]
     public static T Load<T>(string fileName, string encryptionKey = "") where T : class, new()
     {
@@ -128,6 +130,7 @@ public class ModSave
 
         return new T();
     }
+    /// <exclude />
     [Obsolete("This is only compatibility layer for ModLoaderPro, please use more efficient save system", true)]
     public static void Delete(string fileName)
     {
@@ -139,7 +142,6 @@ public class ModSave
         }
         else ModConsole.Log($"MODSAVE: File {fileName} not found, save is already reset.");
     }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
 }
 #endif

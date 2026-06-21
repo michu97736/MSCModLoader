@@ -34,6 +34,7 @@ internal class SetMouseCursorFix : FsmStateAction
     }
 }
 #if MSC
+
 /// <summary>
 /// Playmaker hook inject method.
 /// </summary>

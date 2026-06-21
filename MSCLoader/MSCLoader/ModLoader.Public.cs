@@ -111,6 +111,7 @@ public partial class ModLoader
     /// Get Current Game Scene
     /// </summary>
     /// <returns>CurrentScene enum</returns>
+    /// <exclude />  
     [Obsolete("Use CurrentScene instead", true)]
     public static CurrentScene GetCurrentScene() => CurrentScene;
 
@@ -122,6 +123,7 @@ public partial class ModLoader
     /// <param name="modID">Mod ID of other mod to check (Case sensitive)</param>
     /// <param name="ignoreEnabled">Include disabled mods [yes it's DUMB proloader variable name]</param>
     /// <returns>Mod class</returns>
+    /// <exclude />  
     [Obsolete("Proloader BS", true)]
     public static Mod GetMod(string modID, bool ignoreEnabled = false)
     {
@@ -195,6 +197,7 @@ public partial class ModLoader
     /// <param name="mod">Your mod Class.</param>
     /// <param name="create">DOES NOTHING</param>
     /// <returns></returns>
+    /// <exclude />  
     [Obsolete("This overload is compatibility only", true)]
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public static string GetModSettingsFolder(Mod mod, bool create = true) => GetModSettingsFolder(mod);
@@ -211,6 +214,7 @@ public partial class ModLoader
     /// </summary>
     /// <returns>Path to your mod config folder</returns>
     /// <param name="mod">Your mod Class.</param>
+    /// <exclude />  
     [Obsolete("Rename to GetModSettingsFolder(), config is old unused name", true)]
     public static string GetModConfigFolder(Mod mod)
     {
@@ -234,6 +238,7 @@ public partial class ModLoader
     /// <param name="mod">Your mod Class.</param>
     /// <param name="create">DOES NOTHING</param>
     /// <returns></returns>
+    /// <exclude />  
     [Obsolete("This overload is compatibility only", true)]
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public static string GetModAssetsFolder(Mod mod, bool create = true) => GetModAssetsFolder(mod);

@@ -1,24 +1,27 @@
 ﻿#if !Mini
 using UnityEngine.Events;
 using UnityEngine.UI;
-#pragma warning disable CS1591
+
 
 //ModSettings compatibility for PRO BS mods
 namespace MSCLoader;
 
+/// <exclude />
 [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
 [System.Obsolete("=> Settings")]
 public class ModSettings
 {
     Mod mod;
+    /// <exclude />
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public ModSettings(Mod mod)
     {
         this.mod = mod;
     }
-
+    /// <exclude />
     [System.Obsolete("=> Settings.AddButton", true)]
     public SettingButton AddButton(string id, string buttonText, UnityAction action = null, bool blockSuspension = false) => AddButton(id, buttonText, "", action, blockSuspension);
+    /// <exclude />
     [System.Obsolete("=> Settings.AddButton", true)]
     public SettingButton AddButton(string id, string buttonText, string name = "", UnityAction action = null, bool blockSuspension = false)
     {
@@ -30,16 +33,17 @@ public class ModSettings
         GameObject d = new GameObject("zzzDummyProShitIgnoreThat");
         return d.AddComponent<SettingButton>();
     }
+    /// <exclude />
     [System.Obsolete("=> Settings.AddHeader", true)]
     public SettingHeader AddHeader(string text) => AddHeader(text, new Color32(0, 128, 0, 255));
+    /// <exclude />
     [System.Obsolete("=> Settings.AddHeader", true)]
-
     public SettingHeader AddHeader(string text, Color backgroundColor) => AddHeader(text, backgroundColor, Color.white);
+    /// <exclude />
     [System.Obsolete("=> Settings.AddHeader", true)]
-
     public SettingHeader AddHeader(string text, Color backgroundColor, Color textColor) => AddHeader(text, backgroundColor, textColor, Color.white);
+    /// <exclude />
     [System.Obsolete("=> Settings.AddHeader", true)]
-
     public SettingHeader AddHeader(string text, Color backgroundColor, Color textColor, Color outlineColor)
     {
         mod.proSettings = true;
@@ -47,6 +51,7 @@ public class ModSettings
         GameObject d = new GameObject("zzzDummyProShitIgnoreThat");
         return d.AddComponent<SettingHeader>();
     }
+    /// <exclude />
     [System.Obsolete("=> Keybind.Add", true)]
     public SettingKeybind AddKeybind(string id, string name, KeyCode key, params KeyCode[] modifiers)
     {
@@ -59,10 +64,10 @@ public class ModSettings
         d.AddComponent<SettingKeybind>().SettingKeybindC(keyb);
         return d.GetComponent<SettingKeybind>();
     }
-
+    /// <exclude />
     [System.Obsolete("=> Settings.AddSlider", true)]
     public SettingSlider AddSlider(string id, string name, int value, int minValue, int maxValue) => AddSlider(id, name, value, minValue, maxValue, null);
-
+    /// <exclude />
     [System.Obsolete("=> Settings.AddSlider", true)]
     public SettingSlider AddSlider(string id, string name, int value, int minValue, int maxValue, UnityAction action)
     {
@@ -76,13 +81,14 @@ public class ModSettings
         d.AddComponent<SettingSlider>().setup2(slider);
         return d.GetComponent<SettingSlider>();
     }
-
+    /// <exclude />
     [System.Obsolete("Does nothing", true)]
     public SettingSpacer AddSpacer(float height)
     {
         Settings.AddText(mod, "---");
         return new SettingSpacer();
     }
+    /// <exclude />
     [System.Obsolete("=> Settings.AddText", true)]
     public SettingText AddText(string text)
     {
@@ -90,18 +96,20 @@ public class ModSettings
         Settings.AddText(mod, text);
         return new SettingText();
     }
-
+    /// <exclude />
     [System.Obsolete("=> Settings.AddTextBox", true)]
     public SettingTextBox AddTextBox(string id, string name, string value, string placeholder = "ENTER TEXT...", InputField.CharacterValidation inputType = InputField.CharacterValidation.None)
     {
         return AddTextBox(id, name, value, (UnityAction)null, placeholder, inputType);
     }
+    /// <exclude />
     [System.Obsolete("=> Settings.AddTextBox", true)]
     public SettingTextBox AddTextBox(string id, string name, string value, UnityAction<string> action, string placeholder = "ENTER TEXT...", InputField.CharacterValidation inputType = InputField.CharacterValidation.None)
     {
         Settings.AddText(mod, $"<color=orange>Incompatible setting action - <color=aqua><b>{id}</b></color></color>");
         return AddTextBox(id, name, value, (UnityAction)null, placeholder, inputType);
     }
+    /// <exclude />
     [System.Obsolete("=> Settings.AddTextBox", true)]
     public SettingTextBox AddTextBox(string id, string name, string value, UnityAction action, string placeholder = "ENTER TEXT...", InputField.CharacterValidation inputType = InputField.CharacterValidation.None)
     {
@@ -111,8 +119,10 @@ public class ModSettings
         d.AddComponent<SettingTextBox>().SettingTextBoxC(set);
         return d.GetComponent<SettingTextBox>();
     }
+    /// <exclude />
     [System.Obsolete("=> Settings.AddCheckBox", true)]
     public SettingToggle AddToggle(string id, string name, bool value) => AddToggle(id, name, value, (UnityAction)null);
+    /// <exclude />
     [System.Obsolete("=> Settings.AddCheckBox", true)]
     public SettingToggle AddToggle(string id, string name, bool value, UnityAction<bool> action)
     {
@@ -121,6 +131,7 @@ public class ModSettings
             if (action != null) action.Invoke(value);
         });
     }
+    /// <exclude />
     [System.Obsolete("=> Settings.AddCheckBox", true)]
     public SettingToggle AddToggle(string id, string name, bool value, UnityAction action)
     {
@@ -135,5 +146,5 @@ public class ModSettings
         return d.GetComponent<SettingToggle>();
     }
 }
-#pragma warning restore CS1591
+
 #endif

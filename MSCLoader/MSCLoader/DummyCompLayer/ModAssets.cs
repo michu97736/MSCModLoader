@@ -3,13 +3,16 @@ using System;
 using System.IO;
 
 namespace MSCLoader;
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
+/// <exclude />
 [System.Obsolete("Only used for compatibility with ModLoaderPro", true)]
 public static class ModAssets
 {
+    /// <exclude />
     [System.Obsolete("=> LoadAssets.LoadBundle()", true)]
     public static AssetBundle LoadBundle(byte[] bundleBytes) => AssetBundle.CreateFromMemoryImmediate(bundleBytes);
+
+    /// <exclude />
     [System.Obsolete("=> LoadAssets.LoadTexture()", true)]
     public static Texture2D LoadTexture(string filePath, bool normalMap = false)
     {
@@ -29,6 +32,8 @@ public static class ModAssets
                 throw new System.NotSupportedException($"<b>LoadTexture() Error:</b> File {fileExtension} not supported as a texture: {filePath}");
         }
     }
+
+    /// <exclude />
     [System.Obsolete("=> LoadAssets.LoadTexture()", true)]
     public static Texture2D LoadTexturePNG(string filePath, bool normalMap = false)
     {
@@ -36,8 +41,12 @@ public static class ModAssets
         t2d.LoadImage(File.ReadAllBytes(filePath));
         return t2d;
     }
+
+    /// <exclude />
     [System.Obsolete("=> LoadAssets.LoadTexture()", true)]
     public static Texture2D LoadTextureJPG(string filePath, bool normalMap = false) => LoadTexturePNG(filePath, normalMap);
+
+    /// <exclude />
     [System.Obsolete("=> LoadAssets.LoadTexture()", true)]
     public static Texture2D LoadTextureDDS(string filePath, bool normalMap = false)
     {
@@ -76,7 +85,5 @@ public static class ModAssets
         }
     }
 }
-
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
 #endif

@@ -35,6 +35,7 @@ public partial class ModLoader : MonoBehaviour
     /// <summary>
     /// Is this version of ModLoader experimental (this is NOT game experimental branch)
     /// </summary>
+    /// <exclude />  
 #if Debug
     public static readonly bool experimental = true;
 #else
@@ -45,9 +46,6 @@ public partial class ModLoader : MonoBehaviour
     private bool isMonoDebugger = false;
     private string monoDebugIP = "127.0.0.1:10000"; //default if not changed in launch command
 
-    /// <summary>
-    /// Main init
-    /// </summary>
     internal static void Init_NP(string cfg)
     {
         currentGame = Application.productName == "My Summer Car" ? Game.MySummerCar : Game.MyWinterCar;
@@ -772,6 +770,7 @@ public partial class ModLoader : MonoBehaviour
 
         GameObject loading = GameObject.Instantiate(loadingP);
         canvLoading = loading.GetComponent<MSCLoaderCanvasLoading>();
+        ModUI.loadingCanvas = canvLoading;
         canvLoading.lHeader.text = $"MSCLOADER <color=green>{MSCLoader_Ver}</color>";
         DontDestroyOnLoad(loading);
 
@@ -1132,7 +1131,7 @@ public partial class ModLoader : MonoBehaviour
         canvLoading.SetLoadingStatus("Finishing touches...");
         yield return null;
 #if MSC
-        GameObject.Find("ITEMS").GetComponent<PlayMakerFSM>().FsmInject("Save game", SaveMods); 
+        GameObject.Find("ITEMS").GetComponent<PlayMakerFSM>().FsmInject("Save game", SaveMods);
 #elif MWC
         GameObject.Find("Database/PlayerDatabase").GetPlayMaker("Simulation").FsmInject("Save data", SaveMods); //TODO: test
 #endif
@@ -1594,10 +1593,10 @@ public partial class ModLoader : MonoBehaviour
                         else
                         {
 #endif
-                            ModConsole.Error($"Mod <b><color=orange>{Path.GetFileName(file)}</color></b> is not set as compatible with current game! This mod was made for: <b><color=yellow>{m.SupportedGames}</color></b>.");
-                            IncompatibleMods.Add(m);
-                            InvalidMods.Add(new InvalidMods(Path.GetFileName(file), true, $"This mod is not marked as compatible with current game. Compatible games: <color=aqua>{m.SupportedGames}</color>", new List<string>(), ""));
-                            return;
+                        ModConsole.Error($"Mod <b><color=orange>{Path.GetFileName(file)}</color></b> is not set as compatible with current game! This mod was made for: <b><color=yellow>{m.SupportedGames}</color></b>.");
+                        IncompatibleMods.Add(m);
+                        InvalidMods.Add(new InvalidMods(Path.GetFileName(file), true, $"This mod is not marked as compatible with current game. Compatible games: <color=aqua>{m.SupportedGames}</color>", new List<string>(), ""));
+                        return;
 #if MWC
                         }
 #endif

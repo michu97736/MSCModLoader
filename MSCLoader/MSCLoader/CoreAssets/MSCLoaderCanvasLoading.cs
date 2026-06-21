@@ -5,20 +5,26 @@ namespace MSCLoader;
 
 internal class MSCLoaderCanvasLoading : MonoBehaviour
 {
+    public bool loadingProgressBarActive = false;
+
     [Header("Loading Dialog")]
     public GameObject modLoadingUI;
     public GameObject lContainer;
     public Text lHeader, lTitle, lMod;
     public Slider lProgress;
     public Image lBackFade;
-    public GameObject SecondaryStatus;
-    public Text lSecTitle;
-    public Slider lSecProgress;
 
     [Header("Update Dialog")]
     public GameObject modUpdateUI;
     public Text uTitle, uStatus;
     public Slider uProgress;
+
+    [Header("Progress bar")]
+    public GameObject progressbarUI;
+    public GameObject pContainer;
+    public Text pTitle, pStatus;
+    public Slider pProgress;
+    // public Image pBackFade;
 
     private Coroutine updateUIAnim;
 
@@ -26,6 +32,7 @@ internal class MSCLoaderCanvasLoading : MonoBehaviour
     {
         modLoadingUI.SetActive(false);
         modUpdateUI.SetActive(false);
+        progressbarUI.SetActive(false);
     }
     public void ToggleUpdateUI(bool toggle)
     {
@@ -44,6 +51,7 @@ internal class MSCLoaderCanvasLoading : MonoBehaviour
     public void ToggleLoadingUI(bool toggle)
     {
         if (modLoadingUI.activeSelf == toggle) return;
+        loadingProgressBarActive = toggle;
         if (toggle)
         {
             lBackFade.color = new Color32(0, 0, 0, 245);
@@ -55,7 +63,13 @@ internal class MSCLoaderCanvasLoading : MonoBehaviour
             lContainer.transform.localScale = new Vector3(1, 1, 1);
             StartCoroutine(LoadingUIAnimClose());
         }
-        //   modLoadingUI.SetActive(toggle);
+    }
+    public void ToggleProgressBar(bool toggle)
+    {
+        if (progressbarUI.activeSelf == toggle) return;
+        //  if (pbarUIAnim != null) StopCoroutine(pbarUIAnim);
+        loadingProgressBarActive = toggle;
+        progressbarUI.SetActive(toggle);
     }
     public void SetUpdate(string title, int progress, int maxProgress, string status)
     {
@@ -70,6 +84,24 @@ internal class MSCLoaderCanvasLoading : MonoBehaviour
         SetLoadingProgress(progress, maxProgress);
         SetLoadingStatus(status);
         ToggleLoadingUI(true);
+    }
+    public void SetProgressbar(string title, int progress, int maxProgress, string status)
+    {
+        pTitle.text = title.ToUpper();
+        pProgress.maxValue = maxProgress;
+        pProgress.value = progress;
+        pStatus.text = status;
+        ToggleProgressBar(true);
+    }
+    public void UpdateProgressbar(int progress, string status)
+    {
+        pProgress.value = progress;
+        pStatus.text = status;
+    }
+    public void UpdateProgressbarSetup(string title, int maxProgress)
+    {
+        pTitle.text = title.ToUpper();
+        pProgress.maxValue = maxProgress;
     }
     public void SetUpdateTitle(string title) => uTitle.text = title.ToUpper();
     public void SetUpdateStatus(string status) => uStatus.text = status;

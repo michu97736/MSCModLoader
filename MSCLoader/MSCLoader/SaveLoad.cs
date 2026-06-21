@@ -475,20 +475,24 @@ public class SaveLoad
 #endif
 }
 #if MSC
-#pragma warning disable CS1591
+/// <exclude />
 [Obsolete("Consider switching to serializing custom class.", true)]
 public class SaveData
 {
+    /// <exclude />
     public List<SaveDataList> save = new List<SaveDataList>();
 }
-
+/// <exclude />
 [Obsolete("Consider switching to serializing custom class.", true)]
 public class SaveDataList
 {
+    /// <exclude />
     public string name;
+    /// <exclude />
     public Vector3 pos;
+    /// <exclude />
     public float rotX, rotY, rotZ;
 }
-#pragma warning restore CS1591
+
 #endif
 #endif

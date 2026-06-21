@@ -213,7 +213,7 @@ internal partial class MP3Stream : IDisposable
                 audioSource.Stop();
                 audioSource = null;
             }
-            song_info = string.Empty; 
+            song_info = string.Empty;
             bitrate_info = "0";
             stream_title = string.Empty;
             subbedToEvent = false;

@@ -90,6 +90,7 @@ public partial class Settings
     /// <summary>
     /// Hides "reset all settings to default" button.
     /// </summary>
+    /// <param name="mod">Current mod</param>
     public static void HideResetAllButton(Mod mod) => mod.hideResetAllSettings = true;
 
     /// <summary>

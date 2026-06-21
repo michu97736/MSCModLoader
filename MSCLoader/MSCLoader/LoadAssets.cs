@@ -68,6 +68,7 @@ public static class LoadAssets
     /// <param name="collider">Apply mesh collider to object</param>
     /// <param name="rigidbody">Apply rigidbody to object to affect gravity (don't do it without collider)</param>
     /// <returns>Returns unity GameObject</returns>
+    /// <exclude />
     [Obsolete("LoadOBJ is deprecated, please use AssetBundles instead.", true)]
     public static GameObject LoadOBJ(Mod mod, string fileName, bool collider = true, bool rigidbody = false)
     {
@@ -98,6 +99,7 @@ public static class LoadAssets
     /// <param name="mod">Mod instance.</param>
     /// <param name="fileName">File name to load from assets folder (for example "beer.obj")</param>
     /// <returns>Returns unity Mesh</returns>
+    /// <exclude />
     [Obsolete("LoadOBJMesh is deprecated, please use AssetBundles instead.", true)]
     public static Mesh LoadOBJMesh(Mod mod, string fileName)
     {

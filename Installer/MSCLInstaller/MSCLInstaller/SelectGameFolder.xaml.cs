@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -203,20 +204,20 @@ namespace MSCLInstaller
         {
             if (File.Exists(Path.Combine(Storage.gamePath, "version.dll")) || Directory.Exists(Path.Combine(Storage.gamePath, "MelonLoader"))) //Unsupported doorstop clone (hard floor)
             {
-                Dbg.Log("MelonLoader appears to be installed", true, true);
+                Dbg.Log($"ERROR: MelonLoader appears to be installed, cannot continue please uninstall MelonLoader from {(Storage.selectedGame == Game.MSC ? "My Summer Car" : "My Winter Car")} ", true, true);
                 return true;
             }
 
             if(Directory.Exists(Path.Combine(Storage.gamePath, "Plugins")) || Directory.Exists(Path.Combine(Storage.gamePath, "BepInEx")))
             {
-                Dbg.Log("BepInEx, Plugins folders detected ", true, true);
+                Dbg.Log($"ERROR: BepInEx, Plugins folders detected, cannot continue please uninstall BepInEx from {(Storage.selectedGame == Game.MSC ? "My Summer Car" : "My Winter Car")}", true, true);
                 return true;
             }
             //Other BS
             string p = Path.Combine(Storage.gamePath, "mywintercar_Data", "Managed");
             if (File.Exists(Path.Combine(p, "MWCLoader.dll")) || File.Exists(Path.Combine(p, "MWCModLoader.dll")) || File.Exists(Path.Combine(p, "LightspeedModLoader.dll")) || Directory.Exists(Path.Combine(Storage.gamePath, "MWCLoader")))
             {
-                Dbg.Log("[FAKE] MWCLoader, LightspeedModLoader or MWCModLoader appears to be installed (fake mod loaders)", true, true);
+                Dbg.Log("ERROR: MWCLoader, LightspeedModLoader or MWCModLoader appears to be installed (fake/ai generated mod loaders), please uninstall them before installing MSCLoader", true, true);
                 return true;
             }
             return false;
@@ -230,7 +231,10 @@ namespace MSCLInstaller
             }
             else
             {
-                MessageBox.Show($"Please uninstall any other loaders before installing MSCLoader.{Environment.NewLine}Multiple loaders are not supported.", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                if (MessageBox.Show($"Please uninstall any other loaders from {(Storage.selectedGame == Game.MSC ? "My Summer Car" : "My Winter Car")} before installing MSCLoader.{Environment.NewLine}{Environment.NewLine}Check Log.txt for more info about detected loaders.", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK)
+                {
+                    Process.Start("Log.txt");
+                }
             }
         }
     }
